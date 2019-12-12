@@ -11,17 +11,19 @@ using Renci.SshNet;
 using Renci.SshNet.Sftp;
 using System.IO;
 using System.Diagnostics;
+using System.Timers;
 
 namespace WindowsFormsApp2
 {
     public partial class Form1 : Form
     {
-        int i, j;
+        int i, j,k;
         string address;
         string hostname;
         string password;
         string username;
-        //SshClient sshclient = new SshClient();
+        
+        
         VlcProcessClass myProcess = new VlcProcessClass();
         public Form1()
         {
@@ -35,6 +37,10 @@ namespace WindowsFormsApp2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Nayta nayta = new Nayta(hostname, username, password);
+            
+            
+            
             using (ScpClient client = new ScpClient(hostname, username, password))
             {
                 client.Connect();
@@ -48,32 +54,28 @@ namespace WindowsFormsApp2
                         for (int i = j; i >= 0; i--)
                         {
                             address = "C:/Temp/" + Nayta.GetFileName(i);
+                            
+
                             if (!File.Exists(address))
                             {
                                 using (Stream localFile = File.Create(address))
                                 {
-                                    client.Download("/home/pi/Pictures/" + Nayta.GetFileName(i), localFile);
+                                    client.Download("/home/pi/Riistakamerakuvat/" + Nayta.GetFileName(i), localFile);
                                 }
                             }
+                            
                         }
                     }
                 }
             }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Nayta nayta = new Nayta(hostname, username, password);
-            i = Nayta.GetCounter()-1;
-            for(int j=i;j>=0;j--)
-            {
-                textBox1.Text = textBox1.Text + Nayta.GetFileName(j) + Environment.NewLine;
-
-            }
-
-            button1.Enabled = true;
+            button6.Enabled = true;
+            k = j;
+            pictureBox1.Image = Image.FromFile("C:/Temp/"+k+".jpg");
+           
 
         }
+
+        
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -83,10 +85,22 @@ namespace WindowsFormsApp2
                 if (sshclient.IsConnected)
                 {
                     Console.WriteLine("ssh aukastu");
-                    sshclient.CreateCommand("raspivid -o - -t 0 -hf -w 800 -h 400 -fps 24 |cvlc -vvv stream:///dev/stdin --sout '#standard{access=http,mux=ts,dst=:8160}' :demux=h264").BeginExecute();
+                    sshclient.CreateCommand("sudo killall -9 python3").Execute();
+                    System.Threading.Thread.Sleep(2000);
+                    //sshclient.CreateCommand("raspivid -o - -t 0 -hf -w 800 -h 400 -fps 24 |cvlc -vvv stream:///dev/stdin --sout '#standard{access=http,mux=ts,dst=:8160}' :demux=h264").BeginExecute();
+                    sshclient.CreateCommand("cvlc v4l2:///dev/video0 --v4l2-width 800 --v4l2-height 600 --sout '#transcode{vcodec = h264, fps=10}: standard{access=http,mux=ts,mime=video/ts, dst=0.0.0.0:8160}' -vvv").BeginExecute();
                     sshclient.Disconnect();
                     sshclient.Dispose();
-                    myProcess.openVlc(hostname);
+                    System.Threading.Thread.Sleep(5000);
+                    myProcess.openVlc();
+                    
+                    
+                    
+
+
+
+
+                        Console.WriteLine("kello kulunut");
                     // Configure the process using the StartInfo properties.
                     
                     
@@ -100,7 +114,7 @@ namespace WindowsFormsApp2
             
         }
         
-
+        /*
         private void button5_Click(object sender, EventArgs e)
         {
             SshClient sshclient = new SshClient(hostname, username, password);
@@ -116,6 +130,44 @@ namespace WindowsFormsApp2
                 }
             }   
         }
+        */
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            /*
+            timer1.Stop();
+            myProcess.closeVlc();
+            */
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            
+            if(k>1)
+            {
+                k--;
+                pictureBox1.Image.Dispose();
+                pictureBox1.Image = Image.FromFile("C:/Temp/" + k + ".jpg");
+               
+            }
+            button5.Enabled = true;
+            if (k == 1)
+                button6.Enabled = false;
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            if(k!=j)
+            {
+                k++;
+                pictureBox1.Image.Dispose();
+                pictureBox1.Image = Image.FromFile("C:/Temp/" + k + ".jpg");
+                
+            }
+            if (k == j)
+                button5.Enabled = false;
+            button6.Enabled = true;
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
             hostname = textBoxHost.Text;
@@ -125,7 +177,8 @@ namespace WindowsFormsApp2
             myProcess.Hostname = hostname;
             myProcess.Username = username;
             //ConnectionInfo connectionInfo = new ConnectionInfo(hostname, username, password);
-            button2.Enabled = true;
+            button1.Enabled = true;
+            button4.Enabled = true;
 
         }
     }
@@ -134,7 +187,7 @@ namespace WindowsFormsApp2
 
 public class Nayta
 {
-    private static string[] names= new string[60];
+    private static string[] names= new string[100];
     //private int counter2 = 0;
     private static int counter=0;
     public Nayta(string host, string username, string password)
@@ -149,12 +202,13 @@ public class Nayta
             if (sftp.IsConnected)
             {
                 //sftp.ChangeDirectory("/home/pi/");
-                var files = sftp.ListDirectory("/home/pi/Pictures/");
+                var files = sftp.ListDirectory("/home/pi/Riistakamerakuvat/");
 
                 foreach (var file in files)
                 {
                     string remoteFileName = file.Name;
-                    if (remoteFileName.Contains("png"))
+                   
+                    if (remoteFileName.Contains("jpg"))
                     {
                         //System.Diagnostics.Debug.WriteLine(remoteFileName + " " + counter);
                         names[counter] = remoteFileName;
@@ -185,37 +239,52 @@ public class Nayta
 
 }
 public class VlcProcessClass
-    {
+{
+    private static System.Timers.Timer aika;
+    
     //private Process process;
+    Process process = new Process();
     public string Hostname { get; set; }
     public string Username { get; set; }
     public string Password { get; set; }
 
-    public void openVlc(string hostname)
+    public void openVlc()
         {
-        var process = new Process();
+            aika = new System.Timers.Timer(300000);
+            aika.AutoReset = false;
+            aika.Elapsed += process_Exited; ;
+            aika.Start();
+            process.StartInfo.FileName = "C:/Program Files/VideoLAN/VLC/vlc.exe";
+            process.StartInfo.Arguments = "http://" + Hostname + ":8160/";
             
-                process.StartInfo.FileName = "C:/Program Files/VideoLAN/VLC/vlc.exe";
-                process.StartInfo.Arguments = "http://" + hostname + ":8160";
-            //process.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
             process.Start();
-
+        
             process.EnableRaisingEvents = true;
             process.Exited += new EventHandler(process_Exited);
-                //process.WaitForExit();
-            
+                
 
         }
+
+    private void Aika_Elapsed(object sender, ElapsedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
     private void process_Exited(object sender, System.EventArgs e)
     {
+        if (process.HasExited == false)
+            process.Kill();
+        aika.Stop();
         Console.WriteLine("vlc suljettu pitäs sulkia lähetys");
         SshClient sshclient = new SshClient(Hostname, Username, Password);
         {
             sshclient.Connect();
             if (sshclient.IsConnected)
             {
-                
+
                 sshclient.CreateCommand("pkill vlc").Execute();
+                System.Threading.Thread.Sleep(10000);
+                sshclient.CreateCommand("python3 /home/pi/Documents/serialportTest.py").Execute();
                 sshclient.Disconnect();
                 sshclient.Dispose();
 
@@ -223,6 +292,11 @@ public class VlcProcessClass
         }
 
 
+    }
+    public void closeVlc()
+    {
+        if(process.HasExited==false)
+            process.Kill();
     }
 
 }

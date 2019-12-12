@@ -36,3 +36,15 @@ C:\Users\atu pc\Downloads\SulautetunJarjestelmanProjektiPC-9ea441b3ae888ff083ee3
 C:\Users\atu pc\Downloads\SulautetunJarjestelmanProjektiPC-9ea441b3ae888ff083ee36eadc7b524c992a11f4\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.CopyComplete
 C:\Users\atu pc\Downloads\SulautetunJarjestelmanProjektiPC-9ea441b3ae888ff083ee36eadc7b524c992a11f4\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe
 C:\Users\atu pc\Downloads\SulautetunJarjestelmanProjektiPC-9ea441b3ae888ff083ee36eadc7b524c992a11f4\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.pdb
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.exe.config
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.exe
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.pdb
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\bin\Debug\Renci.SshNet.dll
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\bin\Debug\Renci.SshNet.xml
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csprojAssemblyReference.cache
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Form1.resources
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Properties.Resources.resources
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.GenerateResource.cache
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.CopyComplete
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe
+C:\Users\OMISTAJA\Desktop\projekti\pc repo2\SulautetunJarjestelmanProjektiPC\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.pdb
